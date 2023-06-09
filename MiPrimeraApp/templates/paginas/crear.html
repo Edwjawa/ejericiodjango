@@ -10,56 +10,37 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
-       <h1>Registrar libro</h1>
+        <h1>Registrar libro</h1>
+        
+        <!-- con el mutilpart se habilita la insercion de archivos -->
+        <form method="post" enctype="multipart/form-data"> 
 
-       <form method="post"> 
-           {% for campo  in formulario%}
-           
-           
-           <div>
-                <label id="Id">Id</label>
-                <input type="text"> 
-                {formulario.id}
-           </div>
-
-           <div>
-                <label id="Titulo">Titulo</label>
-                <input type="text">
-                {formulario.titulo}
-            </div>
-
-            <div>
-                <label id="imagen">imagen</label>
-                <input type="text">
-                {formulario.imagen.url}
-            </div>
-
-            <div>
-                <label id="Descripcion">Descripcion</label>
-                <input type="text">
-                {formulario.descripcion}
-            </div>
-
-            <div>
-                <label id="Autor">Autor</label>
-                <input type="text">
-                {formulario.Autor}
-            </div>
-
-            <div>
-                <!---->
-                <label id="Opciones">Opciones</label>
-                <input type="text">
-                
-                {formulario.opciones}
-            </div>
-
-            <div>
-                        <input type="submit" value="Guardar"> 
+            <!-- el formulario es traido por views.py de la aplicación. 
+                y en views.py se ha importado el archivo form.py
+                y en el archico  form.py se creo una clase con el atributo
+                model y fields
+            -->
+            {%csrf_token%}
+            {% for campo  in formulario%}
+            
+            <!--creacion de un formalario dinámico
+            aqui los datos se toman del models.py
+            -->
+                <div>
+                    <label id="Id">{{campo.label}}</label>
+                    <input type{{campo.field.widget.input_type}} name={{campo.name}} placeholder={{campo.name}}> 
                     
-            </div>
+                </div>
+                
+                <div>
+                    {{campo.errors}}
+                    
+                </div>
             {% endfor %}
-
+    
+            <div>
+                <input type="submit" value="Registrar">
+            </div>
         </form>
 
         

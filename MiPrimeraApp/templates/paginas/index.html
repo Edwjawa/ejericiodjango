@@ -37,27 +37,27 @@
                 </th>
                
             </thead>
-            {% for libros in libros%}
+            {% for libro in libros%}
             <tr>
-                <td> {{libros.id}}
+                <td> {{libro.id}}
                 </td>
 
-                <td> {{libros.titulo}}
+                <td> {{libro.titulo}}
                 </td>
 
                 <td> 
-                    <img src="{{libros.imagen.url}}" height="100">
+                    <img src="{{libro.imagen.url}}" height="100">
                     
                 </td>
 
-                <td>{{libros.descripcion}}
+                <td>{{libro.descripcion}}
                 </td>
 
-                <td>{{libros.autor}}
+                <td>{{libro.autor}}
                 </td>
 
-                <td> <a href="{% url 'editar' %}"> Editar </a> | 
-                     <a href="#"> Borrar </a> 
+                <td> <a href="{% url 'editar' libro.id %}"> Editar </a> | 
+                     <a href="{% url 'eliminar' libro.id %}"> Borrar </a> 
                 </td>
             </tr>
             {% endfor %}

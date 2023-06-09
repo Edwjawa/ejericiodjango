@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 # se importa para trer los registros en el modelo
-from .models import Libros
-from .form import LibrosForm
+from .models import Libro
+from .form import LibroForm
 
 # Create your views here.
 def inicio(request):
@@ -14,14 +14,30 @@ def inicio(request):
 def presentacion(request):
     return render(request, 'paginas/presentacion.html')
 
-def libros(request):
+def libro(request):
     # se crea la variable a donde se asignaran todos los libros
-    libros=Libros.objects.all()
+    libros=Libro.objects.all()
     return render(request, 'paginas/index.html', {'libros': libros})
 
 def crear(request):
-    formulario=LibrosForm(request.POST or None)
+    formulario=LibroForm(request.POST or None, request.FILES or None)
+    if formulario.is_valid():
+        formulario.save()
+        return redirect('libros')
+    
     return render(request, 'paginas/crear.html', {'formulario':formulario})
 
-def editar(request):
-    return render(request, 'paginas/editar.html')
+def editar(request, id):
+    
+    libro = Libro.objects.get(id=id)
+    formulario = LibroForm(request.POST or None, request.FILES or None, instance=libro)
+    if formulario.is_valid and request.method=='POST':
+        formulario.save()
+        return redirect('libros')
+    return render (request, 'paginas/editar.html', {'formulario': formulario})
+   
+    
+def eliminar(request,id):
+    libro = Libro.objects.get(id=id)
+    libro.delete()
+    return redirect('libros')

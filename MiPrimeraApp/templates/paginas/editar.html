@@ -12,28 +12,41 @@
     <body>
        <h1>Actualizar libros</h1>
 
-       <form method="post"> 
-            <label id="Id">Id</label>
-            <input type="text">
-            
-            <label id="Titulo">Titulo</label>
-            <input type="text">
-            
-            <label id="imagen">imagen</label>
-            <input type="text">
-            
-            <label id="Descripcion">Descripcion</label>
-            <input type="text">
-            
-            <label id="Autor">Autor</label>
-            <input type="text">
+       <form method="post" enctype="multipart/form-data"> 
 
-            <label id="Opciones">Opciones</label>
-            <input type="text">
+        <!-- el formulario es traido por views.py de la aplicación. 
+            y en views.py se ha importado el archivo form.py
+            y en el archico  form.py se creo una clase con el atributo
+            model y fields
+        -->
+        {%csrf_token%}
+        {% for campo  in formulario%}
 
-            <input type="submit" value="Guardar"> 
+        <!--creacion de un formalario dinámico
+            aqui los datos se toman del models.py
+        -->
+        <div>
+            <label id="Id">{{campo.label}}
+            {%if campo.field.widget.input_type == 'file' and 'campo.value'%}
+                <img src="{{Media_URL}}/imagenes/{{campo.value}}" width="100">
+            {%endif%}
+            </label>
+            
+            <input type{{campo.field.widget.input_type}} name={{campo.name}} placeholder={{campo.name}} value="{{campo.value | default:''}}"> 
+                
+            </div>
+            
+            <div>
+                {{campo.errors}}
+                
+            </div>
+        {% endfor %}
 
-       </form>
+        <div>
+            <input type="submit" value="Actualizar">
+        </div>
+    </form>
+
         <script src="" async defer></script>
     </body>
 </html>
