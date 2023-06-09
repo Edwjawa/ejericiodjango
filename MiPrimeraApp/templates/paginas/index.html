@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html lang="es-Co">
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Biblioteca</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <h1>lista de libros</h1>
+        <a href={% url 'crear' %}> Registrar libro </a>
+        <br>
+        <table border ="1px">
+      {% comment %}       <button type="submit" value=""> Agregar
+            </button> {% endcomment %}
+            <thead>
+                <th> Id 
+                </th>
+               
+                <th> Titulo
+                </th>
+                
+                <th> imagen
+                </th>
+
+                <th> Descripción
+                </th>
+                
+                <th> Autor 
+                </th>
+               
+                <th> Opciones
+                </th>
+               
+            </thead>
+            {% for libros in libros%}
+            <tr>
+                <td> {{libros.id}}
+                </td>
+
+                <td> {{libros.titulo}}
+                </td>
+
+                <td> 
+                    <img src="{{libros.imagen.url}}" height="100">
+                    
+                </td>
+
+                <td>{{libros.descripcion}}
+                </td>
+
+                <td>{{libros.autor}}
+                </td>
+
+                <td> <a href="{% url 'editar' %}"> Editar </a> | 
+                     <a href="#"> Borrar </a> 
+                </td>
+            </tr>
+            {% endfor %}
+
+        </table>
+        
+        
+    </body>
+</html>
